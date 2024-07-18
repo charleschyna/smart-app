@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Beekeeping</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="style.css" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <a href="#" class="navbar-brand">
+            <img src="/images/7835cfc6-3d93-401c-b774-fa98a9d4f8c8-removebg-preview.png" alt="Smart Beekeeping Logo" width="120">
+        </a>
+        <span class="toggle-btn" id="toggleBtn">☰</span>
+        <nav class="navbar navbar-light">
+            <ul class="navbar-nav">
+
+                <!-- Navigation links -->
+                <li class="nav-item active">
+                    <a class="nav-link" href="index.html" >
+                        <i class="fas fa-home icon"></i>
+                        <span class="text">Home</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="hive.html">
+                        <i class="fas fa-feather icon"></i>
+                        <span class="text">Hives</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="loadPage('analytics.html')">
+                        <i class="fas fa-chart-line icon"></i>
+                        <span class="text">Analytics</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="loadPage('settings.html')">
+                        <i class="fas fa-cogs icon"></i>
+                        <span class="text">Settings</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="loadPage('help.html')">
+                        <i class="fas fa-question-circle icon"></i>
+                        <span class="text">Help</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="loadPage('profile.html')">
+                        <i class="fas fa-user icon"></i>
+                        <span class="text">Profile</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="loadPage('logout.html')">
+                        <i class="fas fa-sign-out-alt icon"></i>
+                        <span class="text">Logout</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content" id="content">
+        <h1 class="my-4">Smart Beekeeping Dashboard</h1>
+        <!-- Data Cards -->
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card text-center">
+                    <div class="card-header">
+                        Hive 1
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Temperature</h5>
+                        <p class="card-text">24°C</p>
+                        <h5 class="card-title">Humidity</h5>
+                        <p class="card-text">60%</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-center">
+                    <div class="card-header">
+                        Hive 2
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Temperature</h5>
+                        <p class="card-text">25°C</p>
+                        <h5 class="card-title">Humidity</h5>
+                        <p class="card-text">65%</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Add more cards as needed -->
+        </div>
+
+        <!-- Data Trends Chart -->
+        <div class="container my-4">
+            <h2>Hive Data Trends</h2>
+            <canvas id="hiveChart"></canvas>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Font Awesome Icons -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
+    <!-- Chart.js Script -->
+    <script>
+        var ctx = document.getElementById('hiveChart').getContext('2d');
+        var hiveChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                datasets: [{
+                    label: 'Temperature',
+                    data: [22, 24, 23, 25, 24, 26, 27],
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                }, {
+                    label: 'Humidity',
+                    data: [60, 62, 61, 63, 62, 64, 65],
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // JavaScript for toggling the sidebar
+        document.getElementById('toggleBtn').addEventListener('click', function() {
+            document.getElementById('sidebar').classList.toggle('minimized');
+            document.getElementById('content').classList.toggle('expanded');
+        });
+
+        // JavaScript for loading pages
+        function loadPage(page) {
+            // Replace 'index.html' with the actual file path of the page you want to load
+            fetch(page)
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('content').innerHTML = html;
+                })
+                .catch(error => console.error('Error loading page:', error));
+        }
+    </script>
+</body>
+</html>

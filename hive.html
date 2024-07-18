@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apiaries and Hives</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="style.css" rel="stylesheet">
+    <!-- Font Awesome CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            display: flex;
+        }
+        .sidebar {
+            width: 250px;
+            transition: width 0.3s;
+        }
+        .sidebar.minimized {
+            width: 60px;
+        }
+        .content {
+            flex-grow: 1;
+            transition: margin-left 0.3s;
+        }
+        .sidebar.minimized ~ .content {
+            margin-left: 60px;
+        }
+        .sidebar ~ .content {
+            margin-left: 250px;
+        }
+        .toggle-btn {
+            display: block;
+            cursor: pointer;
+        }
+        .navbar-nav .nav-link .text {
+            display: inline;
+        }
+        .sidebar.minimized .navbar-nav .nav-link .text {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar" id="sidebar">
+        <a href="#" class="navbar-brand">
+            <img src="/images/7835cfc6-3d93-401c-b774-fa98a9d4f8c8-removebg-preview.png" alt="Smart Beekeeping Logo" width="120">
+        </a>
+        <span class="toggle-btn" id="toggleBtn">☰</span>
+        <nav class="navbar navbar-light">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="index.html">
+                        <i class="fas fa-home icon"></i>
+                        <span class="text">Home</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="hive.html">
+                        <i class="fas fa-feather icon"></i>
+                        <span class="text">Hives</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="loadPage('analytics.html')">
+                        <i class="fas fa-chart-line icon"></i>
+                        <span class="text">Analytics</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="loadPage('settings.html')">
+                        <i class="fas fa-cogs icon"></i>
+                        <span class="text">Settings</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="loadPage('help.html')">
+                        <i class="fas fa-question-circle icon"></i>
+                        <span class="text">Help</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="loadPage('profile.html')">
+                        <i class="fas fa-user icon"></i>
+                        <span class="text">Profile</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="loadPage('logout.html')">
+                        <i class="fas fa-sign-out-alt icon"></i>
+                        <span class="text">Logout</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <div class="content" id="content">
+        <h1 class="my-4 text-center">Apiaries and Hives</h1>
+
+        <!-- Form to add a new apiary -->
+        <div class="container">
+            <h2>Add a New Apiary</h2>
+            <form id="addApiaryForm">
+                <div class="form-group">
+                    <label for="apiaryName">Apiary Name</label>
+                    <input type="text" class="form-control" id="apiaryName" placeholder="Enter apiary name" required>
+                </div>
+                <div class="form-group">
+                    <label for="apiaryLocation">Location</label>
+                    <input type="text" class="form-control" id="apiaryLocation" placeholder="Enter apiary location" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Add Apiary</button>
+            </form>
+        </div>
+
+        <!-- Section to display apiary data -->
+        <div class="container my-4">
+            <h2>Apiaries</h2>
+            <div id="apiaryData">
+                <!-- Apiary data will be displayed here -->
+            </div>
+        </div>
+
+        <!-- Modal for adding a new hive -->
+        <div class="modal fade" id="addHiveModal" tabindex="-1" role="dialog" aria-labelledby="addHiveModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addHiveModalLabel">Add a New Hive</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="addHiveForm">
+                            <div class="form-group">
+                                <label for="hiveName">Hive Name</label>
+                                <input type="text" class="form-control" id="hiveName" placeholder="Enter hive name" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Add Hive</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('toggleBtn').addEventListener('click', function() {
+            document.getElementById('sidebar').classList.toggle('minimized');
+            document.getElementById('content').classList.toggle('expanded');
+        });
+
+        // JavaScript for loading pages
+        function loadPage(page) {
+            fetch(page)
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('content').innerHTML = html;
+                })
+                .catch(error => console.error('Error loading page:', error));
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const apiaryDataDiv = document.getElementById('apiaryData');
+            let currentApiaryId = null;
+
+            document.getElementById('addApiaryForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                const apiaryName = document.getElementById('apiaryName').value;
+                const apiaryLocation = document.getElementById('apiaryLocation').value;
+
+                const apiaryId = `apiary-${Date.now()}`;
+
+                const apiaryCard = document.createElement('div');
+                apiaryCard.className = 'card mb-4';
+                apiaryCard.innerHTML = `
+                    <div class="card-header">
+                        ${apiaryName} (${apiaryLocation})
+                        <button class="btn btn-secondary btn-sm float-right" onclick="showAddHiveModal('${apiaryId}')">Add Hive</button>
+                    </div>
+                    <div class="card-body" id="${apiaryId}">
+                        <!-- Hives will be added here -->
+                    </div>
+                `;
+
+                apiaryDataDiv.appendChild(apiaryCard);
+
+                document.getElementById('addApiaryForm').reset();
+            });
+
+            window.showAddHiveModal = function(apiaryId) {
+                currentApiaryId = apiaryId;
+                $('#addHiveModal').modal('show');
+            };
+
+            document.getElementById('addHiveForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                const hiveName = document.getElementById('hiveName').value;
+
+                if (currentApiaryId) {
+                    const apiaryHivesDiv = document.getElementById(currentApiaryId);
+
+                    const hiveItem = document.createElement('div');
+                    hiveItem.className = 'card mt-2';
+                    hiveItem.innerHTML = `
+                        <div class="card-body">
+                            <p class="card-text">${hiveName}</p>
+                        </div>
+                    `;
+
+                    apiaryHivesDiv.appendChild(hiveItem);
+                }
+
+                document.getElementById('addHiveForm').reset();
+                $('#addHiveModal').modal('hide');
+            });
+        });
+    </script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
