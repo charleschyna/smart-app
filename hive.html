@@ -41,6 +41,10 @@
         .sidebar.minimized .navbar-nav .nav-link .text {
             display: none;
         }
+        .nav-item .nav-link.active {
+            background-color: #007bff;
+            color: #fff;
+        }
     </style>
 </head>
 <body>
@@ -149,6 +153,20 @@
     </div>
 
     <script>
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentPath = window.location.pathname.split('/').pop();
+            const navLinks = document.querySelectorAll('.nav-link-item');
+        
+            navLinks.forEach(link => {
+                const linkPath = link.getAttribute('href').split('/').pop();
+                if (linkPath === currentPath) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+        });
         document.getElementById('toggleBtn').addEventListener('click', function() {
             document.getElementById('sidebar').classList.toggle('minimized');
             document.getElementById('content').classList.toggle('expanded');

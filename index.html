@@ -12,6 +12,12 @@
     <link href="style.css" rel="stylesheet">
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+    .nav-item .nav-link.active {
+        background-color: #007bff;
+        color: #fff;
+    }
+    </style>
 </head>
 <body>
     <!-- Sidebar -->
@@ -22,46 +28,44 @@
         <span class="toggle-btn" id="toggleBtn">☰</span>
         <nav class="navbar navbar-light">
             <ul class="navbar-nav">
-
-                <!-- Navigation links -->
-                <li class="nav-item active">
-                    <a class="nav-link" href="index.html" >
+                <li class="nav-item">
+                    <a class="nav-link nav-link-item" href="index.html">
                         <i class="fas fa-home icon"></i>
                         <span class="text">Home</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="hive.html">
+                    <a class="nav-link nav-link-item" href="hive.html">
                         <i class="fas fa-feather icon"></i>
                         <span class="text">Hives</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#" onclick="loadPage('analytics.html')">
+                    <a class="nav-link nav-link-item" href="analytics.html">
                         <i class="fas fa-chart-line icon"></i>
                         <span class="text">Analytics</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#" onclick="loadPage('settings.html')">
+                    <a class="nav-link nav-link-item" href="settings.html">
                         <i class="fas fa-cogs icon"></i>
                         <span class="text">Settings</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#" onclick="loadPage('help.html')">
+                    <a class="nav-link nav-link-item" href="help.html">
                         <i class="fas fa-question-circle icon"></i>
                         <span class="text">Help</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#" onclick="loadPage('profile.html')">
+                    <a class="nav-link nav-link-item" href="profile.html">
                         <i class="fas fa-user icon"></i>
                         <span class="text">Profile</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#" onclick="loadPage('logout.html')">
+                    <a class="nav-link nav-link-item" href="logout.html">
                         <i class="fas fa-sign-out-alt icon"></i>
                         <span class="text">Logout</span>
                     </a>
@@ -69,9 +73,13 @@
             </ul>
         </nav>
     </div>
+    
 
     <!-- Main Content -->
     <div class="content" id="content">
+        <a href="#" class="navbar-brand">
+            <img src="/images/7835cfc6-3d93-401c-b774-fa98a9d4f8c8-removebg-preview.png" alt="Smart Beekeeping Logo" width="120">
+        </a>
         <h1 class="my-4">Smart Beekeeping Dashboard</h1>
         <!-- Data Cards -->
         <div class="row">
@@ -101,6 +109,14 @@
                     </div>
                 </div>
             </div>
+
+            <div class="container my-4" id="homePage">
+    <h2>Home</h2>
+    <div id="homeApiaryData">
+        <!-- Home page apiary data will be displayed here -->
+    </div>
+</div>
+
             <!-- Add more cards as needed -->
         </div>
 
@@ -146,6 +162,21 @@
                 }
             }
         });
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentPath = window.location.pathname.split('/').pop();
+            const navLinks = document.querySelectorAll('.nav-link-item');
+        
+            navLinks.forEach(link => {
+                const linkPath = link.getAttribute('href').split('/').pop();
+                if (linkPath === currentPath) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+        });
+        
 
         // JavaScript for toggling the sidebar
         document.getElementById('toggleBtn').addEventListener('click', function() {
