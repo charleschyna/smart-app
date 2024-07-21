@@ -1,101 +1,112 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const apiaryDataDiv = document.getElementById('apiaryData');
-    const homeApiaryDataDiv = document.getElementById('homeApiaryData');
-    let currentApiaryId = null;
 
-    function displayApiaries() {
-        apiaryDataDiv.innerHTML = '';
-        homeApiaryDataDiv.innerHTML = '';
-        const apiaries = JSON.parse(localStorage.getItem('apiaries')) || [];
-
-        apiaries.forEach(apiary => {
-            const apiaryCard = document.createElement('div');
-            apiaryCard.className = 'card mb-4';
-            apiaryCard.innerHTML = `
-                <div class="card-header">
-                    ${apiary.name} (${apiary.location})
-                    <button class="btn btn-secondary btn-sm float-right" onclick="showAddHiveModal('${apiary.id}')">Add Hive</button>
-                </div>
-                <div class="card-body" id="${apiary.id}">
-                    <!-- Hives will be added here -->
-                </div>
-            `;
-
-            apiaryDataDiv.appendChild(apiaryCard);
-            homeApiaryDataDiv.appendChild(apiaryCard.cloneNode(true));
-
-            apiary.hives.forEach(hive => {
-                const hiveItem = document.createElement('div');
-                hiveItem.className = 'card mt-2';
-                hiveItem.innerHTML = `
-                    <div class="card-body">
-                        <p class="card-text">${hive.name}</p>
-                        <p>Temperature: <span class="hive-temperature">N/A</span></p>
-                        <p>Humidity: <span class="hive-humidity">N/A</span></p>
-                        <p>Weight: <span class="hive-weight">N/A</span></p>
-                    </div>
-                `;
-
-                document.getElementById(apiary.id).appendChild(hiveItem);
-                document.getElementById(apiary.id).cloneNode(true);
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('addApiaryForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                addApiary();
             });
+
+            document.getElementById('addHiveForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                addHive();
+            });
+
+            document.getElementById('clearAllBtn').addEventListener('click', clearAllApiaries);
+
+            loadApiaries();
         });
-    }
 
-    document.getElementById('addApiaryForm').addEventListener('submit', function(e) {
-        e.preventDefault();
+        function addApiary() {
+            const apiaryName = document.getElementById('apiaryName').value;
+            const apiaryLocation = document.getElementById('apiaryLocation').value;
 
-        const apiaryName = document.getElementById('apiaryName').value;
-        const apiaryLocation = document.getElementById('apiaryLocation').value;
-        const apiaryId = `apiary-${Date.now()}`;
-
-        const apiary = {
-            id: apiaryId,
-            name: apiaryName,
-            location: apiaryLocation,
-            hives: []
-        };
-
-        const apiaries = JSON.parse(localStorage.getItem('apiaries')) || [];
-        apiaries.push(apiary);
-        localStorage.setItem('apiaries', JSON.stringify(apiaries));
-
-        document.getElementById('addApiaryForm').reset();
-        displayApiaries();
-    });
-
-    window.showAddHiveModal = function(apiaryId) {
-        currentApiaryId = apiaryId;
-        $('#addHiveModal').modal('show');
-    };
-
-    document.getElementById('addHiveForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-
-        const hiveName = document.getElementById('hiveName').value;
-
-        if (currentApiaryId) {
-            const apiaries = JSON.parse(localStorage.getItem('apiaries')) || [];
-
-            apiaries.forEach(apiary => {
-                if (apiary.id === currentApiaryId) {
-                    const hive = {
-                        name: hiveName,
-                        temperature: 'N/A',
-                        humidity: 'N/A',
-                        weight: 'N/A'
-                    };
-                    apiary.hives.push(hive);
-                }
-            });
+            let apiaries = JSON.parse(localStorage.getItem('apiaries')) || [];
+            apiaries.push({ name: apiaryName, location: apiaryLocation, hives: [] });
 
             localStorage.setItem('apiaries', JSON.stringify(apiaries));
-            displayApiaries();
+
+            document.getElementById('apiaryName').value = '';
+            document.getElementById('apiaryLocation').value = '';
+
+            loadApiaries();
         }
 
-        document.getElementById('addHiveForm').reset();
-        $('#addHiveModal').modal('hide');
-    });
+        function addHive() {
+            const hiveName = document.getElementById('hiveName').value;
+            const apiaryName = document.getElementById('selectedApiary').value;
 
-    displayApiaries();
-});
+            let apiaries = JSON.parse(localStorage.getItem('apiaries')) || [];
+            const apiary = apiaries.find(a => a.name === apiaryName);
+            if (apiary) {
+                apiary.hives.push({ name: hiveName, temperature: null, humidity: null, weight: null });
+                localStorage.setItem('apiaries', JSON.stringify(apiaries));
+
+                document.getElementById('hiveName').value = '';
+                $('#addHiveModal').modal('hide');
+                loadApiaries();
+            }
+        }
+
+        function loadApiaries() {
+            const apiaryData = document.getElementById('apiaryData');
+            apiaryData.innerHTML = '';
+            let apiaries = JSON.parse(localStorage.getItem('apiaries')) || [];
+            apiaries.forEach(apiary => {
+                const apiaryElement = document.createElement('div');
+                apiaryElement.className = 'apiary';
+                apiaryElement.innerHTML = `
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h3>${apiary.name}</h3>
+                        <button class="btn btn-danger btn-sm" onclick="deleteApiary('${apiary.name}')">Delete Apiary</button>
+                    </div>
+                    <p>Location: ${apiary.location}</p>
+                    <h4>Hives:</h4>
+                    <div class="hives">
+                        ${apiary.hives.map(hive => `
+                            <div class="hive">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h5>${hive.name}</h5>
+                                    <button class="btn btn-danger btn-sm" onclick="deleteHive('${apiary.name}', '${hive.name}')">Delete Hive</button>
+                                </div>
+                                <p>Temperature: ${hive.temperature}°C</p>
+                                <p>Humidity: ${hive.humidity}%</p>
+                                <p>Weight: ${hive.weight}kg</p>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <button class="btn btn-primary mt-2" onclick="showAddHiveModal('${apiary.name}')">Add Hive</button>
+                `;
+                apiaryData.appendChild(apiaryElement);
+            });
+        }
+
+        function clearAllApiaries() {
+            localStorage.removeItem('apiaries');
+            loadApiaries();
+        }
+
+        function deleteApiary(apiaryName) {
+            let apiaries = JSON.parse(localStorage.getItem('apiaries')) || [];
+            apiaries = apiaries.filter(apiary => apiary.name !== apiaryName);
+            localStorage.setItem('apiaries', JSON.stringify(apiaries));
+            loadApiaries();
+        }
+
+        function deleteHive(apiaryName, hiveName) {
+            let apiaries = JSON.parse(localStorage.getItem('apiaries')) || [];
+            const apiary = apiaries.find(a => a.name === apiaryName);
+            if (apiary) {
+                apiary.hives = apiary.hives.filter(hive => hive.name !== hiveName);
+                localStorage.setItem('apiaries', JSON.stringify(apiaries));
+                loadApiaries();
+            }
+        }
+
+        function showAddHiveModal(apiaryName) {
+            $('#addHiveModal').modal('show');
+            document.getElementById('selectedApiary').value = apiaryName;
+        }
+
+        document.getElementById('toggleBtn').addEventListener('click', function() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('minimized');
+        });
