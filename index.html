@@ -91,96 +91,62 @@
     </style>
 </head>
 <body>
-    <!-- Sidebar -->
-    <div class="sidebar" id="sidebar">
-        <a href="#" class="navbar-brand">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <a class="navbar-brand" href="#">
             <img src="/images/7835cfc6-3d93-401c-b774-fa98a9d4f8c8-removebg-preview.png" alt="Smart Beekeeping Logo" width="120">
         </a>
-        <span class="toggle-btn" id="toggleBtn">☰</span>
-        <nav class="navbar navbar-light">
-            <ul class="navbar-nav">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <form class="form-inline mx-auto">
+                <div class="input-group">
+                    
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-light" type="button"><i class="fas fa-search"></i></button>
+                    </div>
+                </div>
+            </form>
+            <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link nav-link-item" href="index.html">
-                        <i class="fas fa-home icon"></i>
-                        <span class="text">Home</span>
-                    </a>
+                    <a class="nav-link" href="index.html">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link nav-link-item" href="hive.html">
-                        <i class="fas fa-feather icon"></i>
-                        <span class="text">Hives</span>
-                    </a>
+                    <a class="nav-link" href="hives.html">Hives</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link nav-link-item" href="analytics.html">
-                        <i class="fas fa-chart-line icon"></i>
-                        <span class="text">Analytics</span>
-                    </a>
+                    <a class="nav-link" href="analytics.html">Analytics</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link nav-link-item" href="settings.html">
-                        <i class="fas fa-cogs icon"></i>
-                        <span class="text">Settings</span>
-                    </a>
+                    <a class="nav-link" href="">Profile</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link nav-link-item" href="help.html">
-                        <i class="fas fa-question-circle icon"></i>
-                        <span class="text">Help</span>
-                    </a>
+                    <a class="nav-link" href="#">Logout</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link nav-link-item" href="profile.html">
-                        <i class="fas fa-user icon"></i>
-                        <span class="text">Profile</span>
+                    <a class="nav-link" href="#">
+                        <i class="fas fa-bell"></i>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link nav-link-item" href="logout.html">
-                        <i class="fas fa-sign-out-alt icon"></i>
-                        <span class="text">Logout</span>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-user"></i>
                     </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="profile.html">Profile</a>
+                        <a class="dropdown-item" href="settings.html">Settings</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="logout.html">Logout</a>
+                    </div>
                 </li>
             </ul>
-        </nav>
-    </div>
+        </div>
+    </nav>
 
     <!-- Main Content -->
     <div class="content" id="content">
-        <!-- Header -->
-        <nav class="navbar navbar-expand-lg navbar-light bg-light" id="header">
-            <a class="navbar-brand" href="#">
-                <img src="/images/7835cfc6-3d93-401c-b774-fa98a9d4f8c8-removebg-preview.png" alt="Smart Beekeeping Logo" width="120">
-            </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <form class="form-inline ml-auto">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                </form>
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <i class="fas fa-bell"></i>
-                        </a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-user"></i>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="profile.html">Profile</a>
-                            <a class="dropdown-item" href="settings.html">Settings</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="logout.html">Logout</a>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-
+       
         <h1 class="my-4">Smart Nyki Solutions</h1>
 
         <!-- Data Cards -->

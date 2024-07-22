@@ -1,0 +1,71 @@
+
+        body {
+            display: flex;
+        }
+        .sidebar {
+            width: 250px;
+            transition: width 0.3s;
+            position: fixed;
+            top: 40;
+            left: 0;
+            height: 100vh;
+            background-color: #94c5f6;
+            border-right: 1px solid #ddd;
+            padding-top: 60px; /* Adjust padding-top to avoid overlapping with header */
+        }
+        .sidebar.minimized {
+            width: 60px;
+        }
+        .content {
+            flex-grow: 1;
+            transition: margin-left 0.3s;
+        }
+        .sidebar.minimized ~ .content {
+            margin-left: 60px;
+        }
+        .sidebar ~ .content {
+            margin-left: 250px;
+        }
+        .toggle-btn {
+            display: block;
+            cursor: pointer;
+        }
+        .navbar-nav .nav-link .text {
+            display: inline;
+        }
+        .sidebar.minimized .navbar-nav .nav-link .text {
+            display: none;
+        }
+        .nav-item .nav-link.active {
+            background-color: #007bff;
+            color: #fff;
+        }
+        .hives {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .hive {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            width: calc(33.333% - 20px);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .hive h5 {
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+        .hive p {
+            margin: 5px 0;
+        }
+        .footer {
+            background-color: #94c5f6;
+            border-top: 1px solid #ddd;
+            padding: 10px 20px;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+   
