@@ -3,197 +3,123 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Beekeeping</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome CSS -->
+    <title>Apiaries and Hives</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
-    <!-- Custom CSS -->
-    <link href="style.css" rel="stylesheet">
-    <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         body {
+            background-color: #f7f9fc;
+            margin: 0;
+            padding-top: 60px;
+        }
+        .container {
+            margin-top: 30px;
+        }
+        .apiary-header {
             display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
         }
-        .sidebar {
-            width: 250px;
-            transition: width 0.3s;
-            position: fixed;
-            top: 40;
-            left: 0;
-            height: 100vh;
-            background-color: #94c5f6;
-            border-right: 1px solid #dbbfbf;
-            padding-top: 60px; /* Adjust padding-top to avoid overlapping with header */
+        .apiary-header h2 {
+            margin: 0;
+            color: #007bff;
         }
-        .sidebar.minimized {
-            width: 60px;
-        }
-        .content {
-            flex-grow: 1;
-            transition: margin-left 0.3s;
-        }
-        .sidebar.minimized ~ .content {
-            margin-left: 60px;
-        }
-        @media (max-width: 400px) {
-            .sidebar {
-                display: none; /* Hide sidebar on mobile devices */
-            }
-            
-        .sidebar ~ .content {
-            margin-left: 250px;
-        }
-        .toggle-btn {
-            display: block;
-            cursor: pointer;
-        }
-        .navbar-nav .nav-link .text {
-            display: inline;
-        }
-        .sidebar.minimized .navbar-nav .nav-link .text {
-            display: none;
-        }
-        .nav-item .nav-link.active {
-            background-color: #007bff;
-            color: #fff;
-        }
-        .hives {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-        .hive {
-            border: 1px solid #ddd;
+        .card {
+            border: 1px solid #e0e0e0;
             border-radius: 8px;
-            padding: 15px;
-            width: calc(33.333% - 20px);
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
         }
-        .hive h5 {
-            margin-top: 0;
-            margin-bottom: 10px;
+        .card-header {
+            background-color: #007bff;
+            color: white;
+            border-radius: 8px 8px 0 0;
+            padding: 10px;
         }
-        .hive p {
-            margin: 5px 0;
+        .hive-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 16px;
+            background-color: #fff;
+            margin: 10px;
+            width: 150px;
+            height: 200px;
         }
-        .footer {
-            background-color: #f8f9fa;
-            border-top: 1px solid #ddd;
-            padding: 10px 20px;
-            text-align: center;
-            position: fixed;
-            bottom: 0;
+        .hive-image {
             width: 100%;
+            height: 100px;
+            background-color: #ffcc00;
+            border-radius: 4px;
         }
-        
+        .hive-info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 10px;
+        }
+        .hive-name {
+            font-weight: bold;
+        }
+        .hive-meta {
+            color: #757575;
+            font-size: 0.875rem;
+        }
+        .hive-details {
+            font-size: 0.75rem;
+            color: #757575;
+            text-align: center;
+        }
+        .apiary-section {
+            margin-bottom: 40px;
+        }
     </style>
 </head>
 <body>
-    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-        <a class="navbar-brand" href="#">
-            <img src="/images/7835cfc6-3d93-401c-b774-fa98a9d4f8c8-removebg-preview.png" alt="Smart Beekeeping Logo" width="120">
-        </a>
+        <a class="navbar-brand" href="#">Smart Beekeeping</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-            <form class="form-inline mx-auto">
-                <div class="input-group">
-                    
-                    <div class="input-group-append">
-                        <button class="btn btn-outline-light" type="button"><i class="fas fa-search"></i></button>
-                    </div>
-                </div>
-            </form>
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
                     <a class="nav-link" href="index.html">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="hives.html">Hives</a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" href="analytics.html">Analytics</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="">Profile</a>
+                    <a class="nav-link" href="hive.html">Hives</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Logout</a>
+                    <a class="nav-link" href="profile.html">Profile</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <i class="fas fa-bell"></i>
-                    </a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fas fa-user"></i>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="profile.html">Profile</a>
-                        <a class="dropdown-item" href="settings.html">Settings</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="logout.html">Logout</a>
-                    </div>
+                    <a class="nav-link" href="logout.html">Logout</a>
                 </li>
             </ul>
         </div>
     </nav>
 
-    <!-- Main Content -->
-    <div class="content" id="content">
-       
-        <h1 class="my-4">Smart Nyki Solutions</h1>
+    <div class="container">
+        <h1 class="my-4 text-center">Smart Nyuki Solutions</h1>
 
-        <!-- Data Cards -->
-        <div class="row">
-            <div class="col-md-4">
-                <div class="card text-center">
-                    <div class="card-header">
-                        Hive 1
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">Temperature</h5>
-                        <p class="card-text">24°C</p>
-                        <h5 class="card-title">Humidity</h5>
-                        <p class="card-text">60%</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card text-center">
-                    <div class="card-header">
-                        Hive 2
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">Temperature</h5>
-                        <p class="card-text">25°C</p>
-                        <h5 class="card-title">Humidity</h5>
-                        <p class="card-text">65%</p>
-                        <h5 class="card-title">Weight</h5>
-                        <p class="card-text">150kg</p>
-                    </div>
-                </div>
-            </div>
+        <div id="apiaryData">
+            <!-- Apiaries and Hives data will be displayed here -->
         </div>
 
-        <!-- Apiaries and Hives Section -->
-        <div class="container my-4">
-            <h2>Apiaries</h2>
-            <div id="homeApiaryData">
-                <!-- Apiary data will be displayed here -->
-            </div>
+        <!-- Add Apiary and Hive buttons -->
+        <div class="text-center my-4">
+            <button class="btn btn-primary" onclick="addApiary()">Add Apiary</button>
+            <button class="btn btn-success" onclick="addHive()">Add Hive</button>
         </div>
+    </div>
 
-        <!-- Data Trends Chart -->
-        <div class="container my-4">
-            <h2>Hive Data Trends</h2>
-            <canvas id="hiveChart"></canvas>
-        </div>
+    <div class="footer text-center">
+        <p>&copy; 2024 Smart Beekeeping. All rights reserved.</p>
     </div>
 
     <!-- Bootstrap JS and dependencies -->
@@ -202,61 +128,119 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <!-- Font Awesome Icons -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
-    <!-- Chart.js Script -->
+
     <script>
-     
-
+        // Load apiaries and hives data
         document.addEventListener('DOMContentLoaded', function() {
-            const currentPath = window.location.pathname.split('/').pop();
-            const navLinks = document.querySelectorAll('.nav-link-item');
-        
-            navLinks.forEach(link => {
-                const linkPath = link.getAttribute('href').split('/').pop();
-                if (linkPath === currentPath) {
-                    link.classList.add('active');
-                } else {
-                    link.classList.remove('active');
-                }
-            });
-
-            // Load apiaries and hives data
             loadApiaries();
-
-            // Toggle sidebar
-            const toggleBtn = document.getElementById('toggleBtn');
-            const sidebar = document.getElementById('sidebar');
-            const content = document.getElementById('content');
-
-            toggleBtn.addEventListener('click', function() {
-                sidebar.classList.toggle('minimized');
-                content.classList.toggle('minimized');
-            });
         });
 
         function loadApiaries() {
-            const apiaryData = document.getElementById('homeApiaryData');
-            apiaryData.innerHTML = '';
+            const apiaryData = document.getElementById('apiaryData');
+            apiaryData.innerHTML = ''; // Clear existing data
             let apiaries = JSON.parse(localStorage.getItem('apiaries')) || [];
+
             apiaries.forEach(apiary => {
-                const apiaryElement = document.createElement('div');
-                apiaryElement.classList.add('apiary');
-                apiaryElement.innerHTML = `
-                    <h3>${apiary.name}</h3>
-                    <p>Location: ${apiary.location}</p>
-                    <p>Number of Hives: ${apiary.hives.length}</p>
-                    <div class="hives">
-                        ${apiary.hives.map(hive => `
-                            <div class="hive">
-                                <h5>${hive.name}</h5>
-                                <p>Temperature: ${hive.temperature}°C</p>
-                                <p>Humidity: ${hive.humidity}%</p>
-                                <p>Weight: ${hive.weight}kg</p>
-                            </div>
-                        `).join('')}
+                const apiarySection = document.createElement('div');
+                apiarySection.classList.add('apiary-section');
+
+                const apiaryHeader = document.createElement('div');
+                apiaryHeader.classList.add('apiary-header');
+                apiaryHeader.innerHTML = `
+                    <h2>${apiary.name}</h2>
+                    <div>
+                        <button class="btn btn-outline-secondary btn-sm" onclick="editApiary('${apiary.id}')"><i class="fas fa-edit"></i> Edit</button>
+                        <button class="btn btn-outline-danger btn-sm" onclick="deleteApiary('${apiary.id}')"><i class="fas fa-trash"></i> Delete</button>
                     </div>
                 `;
-                apiaryData.appendChild(apiaryElement);
+
+                const hivesContainer = document.createElement('div');
+                hivesContainer.classList.add('d-flex', 'flex-wrap');
+
+                apiary.hives.forEach(hive => {
+                    const hiveCard = document.createElement('div');
+                    hiveCard.classList.add('hive-card');
+                    hiveCard.innerHTML = `
+                        <div class="hive-image"></div>
+                        <div class="hive-info">
+                            <div class="hive-name">${hive.name}</div>
+                            <div class="hive-meta">Temp: ${hive.temperature}°C</div>
+                            <div class="hive-meta">Humidity: ${hive.humidity}%</div>
+                            <div class="hive-meta">Weight: ${hive.weight}kg</div>
+                            <button class="btn btn-outline-primary btn-sm mt-2" onclick="viewHiveDetails('${apiary.id}', '${hive.id}')">View Details</button>
+                        </div>
+                    `;
+                    hivesContainer.appendChild(hiveCard);
+                });
+
+                apiarySection.appendChild(apiaryHeader);
+                apiarySection.appendChild(hivesContainer);
+                apiaryData.appendChild(apiarySection);
             });
+        }
+
+        function addApiary() {
+            const apiaryName = prompt('Enter apiary name:');
+            if (!apiaryName) return;
+
+            const apiaries = JSON.parse(localStorage.getItem('apiaries')) || [];
+            const newApiary = {
+                id: `apiary-${Date.now()}`,
+                name: apiaryName,
+                hives: []
+            };
+            apiaries.push(newApiary);
+            localStorage.setItem('apiaries', JSON.stringify(apiaries));
+            loadApiaries();
+        }
+
+        function addHive() {
+            const apiaryId = prompt('Enter apiary ID to add a hive to:');
+            const hiveName = prompt('Enter hive name:');
+            if (!apiaryId || !hiveName) return;
+
+            const apiaries = JSON.parse(localStorage.getItem('apiaries')) || [];
+            const apiary = apiaries.find(a => a.id === apiaryId);
+            if (!apiary) {
+                alert('Apiary not found!');
+                return;
+            }
+
+            const newHive = {
+                id: `hive-${Date.now()}`,
+                name: hiveName,
+                temperature: 'N/A',
+                humidity: 'N/A',
+                weight: 'N/A'
+            };
+            apiary.hives.push(newHive);
+            localStorage.setItem('apiaries', JSON.stringify(apiaries));
+            loadApiaries();
+        }
+
+        function editApiary(apiaryId) {
+            const apiaries = JSON.parse(localStorage.getItem('apiaries')) || [];
+            const apiary = apiaries.find(a => a.id === apiaryId);
+            if (!apiary) return;
+
+            const newName = prompt('Enter new name for the apiary:', apiary.name);
+            if (newName) {
+                apiary.name = newName;
+                localStorage.setItem('apiaries', JSON.stringify(apiaries));
+                loadApiaries();
+            }
+        }
+
+        function deleteApiary(apiaryId) {
+            let apiaries = JSON.parse(localStorage.getItem('apiaries')) || [];
+            apiaries = apiaries.filter(a => a.id !== apiaryId);
+            localStorage.setItem('apiaries', JSON.stringify(apiaries));
+            loadApiaries();
+        }
+
+        function viewHiveDetails(apiaryId, hiveId) {
+            alert(`Viewing details for hive ${hiveId} in apiary ${apiaryId}`);
+            // Here you can implement the logic to show detailed hive information
         }
     </script>
 </body>

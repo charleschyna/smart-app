@@ -12,6 +12,9 @@
             background-color: #f7f9fc;
             margin: 0;
             padding-top: 60px;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
         .container {
             margin-top: 30px;
@@ -22,6 +25,60 @@
         .card-header {
             background-color: #007bff;
             color: white;
+        }
+        .footer {
+            margin-top: auto;
+            background-color: #343a40;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+        }
+        .btn-small {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.875rem;
+        }
+        .hive-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 16px;
+            background-color: #fff;
+            margin: 10px;
+            width: 150px;
+            height: 200px;
+            position: relative;
+        }
+        .hive-image {
+            width: 100%;
+            height: 100px;
+            background-color: #ffcc00;
+            border-radius: 4px;
+        }
+        .hive-info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 10px;
+        }
+        .hive-name {
+            font-weight: bold;
+        }
+        .hive-meta {
+            color: #757575;
+            font-size: 0.875rem;
+        }
+        .hive-details {
+            font-size: 0.75rem;
+            color: #757575;
+            text-align: center;
+        }
+        .options-icon {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -67,9 +124,9 @@
                     <label for="apiaryLocation">Location</label>
                     <input type="text" class="form-control" id="apiaryLocation" placeholder="Enter apiary location" required>
                 </div>
-                <button type="submit" id="addApiaryBtn" class="btn btn-primary">Add Apiary</button>
+                <button type="submit" id="addApiaryBtn" class="btn btn-primary btn-small">Add Apiary</button>
             </form>
-            <button id="clearAllBtn" class="btn btn-danger mt-3">Clear All Apiaries</button>
+            <button id="clearAllBtn" class="btn btn-warning btn-small mt-3">Clear All Apiaries</button>
         </div>
 
         <!-- Section to display apiary data -->
@@ -97,8 +154,29 @@
                                 <input type="text" class="form-control" id="hiveName" placeholder="Enter hive name" required>
                             </div>
                             <input type="hidden" id="selectedApiary">
-                            <button type="submit" class="btn btn-primary">Add Hive</button>
+                            <button type="submit" class="btn btn-primary btn-small">Add Hive</button>
                         </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal for hive analytics -->
+        <div class="modal fade" id="hiveAnalyticsModal" tabindex="-1" role="dialog" aria-labelledby="hiveAnalyticsModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="hiveAnalyticsModalLabel">Hive Analytics</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <canvas id="hiveAnalyticsChart"></canvas>
+                        <div class="hive-condition mt-3">
+                            <h6>Overall Condition</h6>
+                            <p id="hiveCondition"></p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -106,7 +184,7 @@
     </div>
 
     <!-- Footer -->
-    <footer class="footer mt-auto py-3 bg-dark text-white">
+    <footer class="footer mt-auto">
         <div class="container text-center">
             <span>&copy; 2024 Smart Beekeeping. All rights reserved.</span>
         </div>
@@ -127,7 +205,15 @@
                 addHive();
             });
 
-            document.getElementById('clearAllBtn').addEventListener('click', clearAllApiaries);
+            document.getElementById('clearAllBtn').addEventListener('click', confirmClearAllApiaries);
+
+            document.getElementById('apiaryData').addEventListener('click', function(e) {
+                if (e.target.classList.contains('options-icon')) {
+                    const apiaryIndex = e.target.dataset.apiaryIndex;
+                    const hiveIndex = e.target.dataset.hiveIndex;
+                    showHiveAnalytics(apiaryIndex, hiveIndex);
+                }
+            });
 
             loadApiaries();
         });
@@ -136,68 +222,23 @@
             const apiaryName = document.getElementById('apiaryName').value;
             const apiaryLocation = document.getElementById('apiaryLocation').value;
 
-            let apiaries = JSON.parse(localStorage.getItem('apiaries')) || [];
-            apiaries.push({ name: apiaryName, location: apiaryLocation, hives: [] });
+            const apiary = {
+                name: apiaryName,
+                location: apiaryLocation,
+                hives: []
+            };
 
+            const apiaries = JSON.parse(localStorage.getItem('apiaries')) || [];
+            apiaries.push(apiary);
             localStorage.setItem('apiaries', JSON.stringify(apiaries));
-
-            document.getElementById('apiaryName').value = '';
-            document.getElementById('apiaryLocation').value = '';
-
+            document.getElementById('addApiaryForm').reset();
             loadApiaries();
         }
 
-        function addHive() {
-            const hiveName = document.getElementById('hiveName').value;
-            const apiaryName = document.getElementById('selectedApiary').value;
-
-            let apiaries = JSON.parse(localStorage.getItem('apiaries')) || [];
-            const apiary = apiaries.find(a => a.name === apiaryName);
-            if (apiary) {
-                apiary.hives.push({ name: hiveName, temperature: null, humidity: null, weight: null });
-                localStorage.setItem('apiaries', JSON.stringify(apiaries));
-
-                document.getElementById('hiveName').value = '';
-                $('#addHiveModal').modal('hide');
-                loadApiaries();
+        function confirmClearAllApiaries() {
+            if (confirm("Are you sure you want to clear all apiaries?")) {
+                clearAllApiaries();
             }
-        }
-
-        function loadApiaries() {
-            const apiaryData = document.getElementById('apiaryData');
-            apiaryData.innerHTML = '';
-            let apiaries = JSON.parse(localStorage.getItem('apiaries')) || [];
-            apiaries.forEach(apiary => {
-                const apiaryElement = document.createElement('div');
-                apiaryElement.className = 'col-12 mb-4';
-                apiaryElement.innerHTML = `
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <h3>${apiary.name}</h3>
-                                <button class="btn btn-danger btn-sm" onclick="deleteApiary('${apiary.name}')">Delete Apiary</button>
-                            </div>
-                            <p>Location: ${apiary.location}</p>
-                            <h4>Hives:</h4>
-                            <div class="hives">
-                                ${apiary.hives.map(hive => `
-                                    <div class="hive">
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <h5>${hive.name}</h5>
-                                            <button class="btn btn-danger btn-sm" onclick="deleteHive('${apiary.name}', '${hive.name}')">Delete Hive</button>
-                                        </div>
-                                        <p>Temperature: ${hive.temperature || 'N/A'}°C</p>
-                                        <p>Humidity: ${hive.humidity || 'N/A'}%</p>
-                                        <p>Weight: ${hive.weight || 'N/A'}kg</p>
-                                    </div>
-                                `).join('')}
-                            </div>
-                            <button class="btn btn-primary mt-2" onclick="showAddHiveModal('${apiary.name}')">Add Hive</button>
-                        </div>
-                    </div>
-                `;
-                apiaryData.appendChild(apiaryElement);
-            });
         }
 
         function clearAllApiaries() {
@@ -205,27 +246,112 @@
             loadApiaries();
         }
 
-        function deleteApiary(apiaryName) {
-            let apiaries = JSON.parse(localStorage.getItem('apiaries')) || [];
-            apiaries = apiaries.filter(apiary => apiary.name !== apiaryName);
-            localStorage.setItem('apiaries', JSON.stringify(apiaries));
-            loadApiaries();
+        function loadApiaries() {
+            const apiaries = JSON.parse(localStorage.getItem('apiaries')) || [];
+            const apiaryDataDiv = document.getElementById('apiaryData');
+            apiaryDataDiv.innerHTML = '';
+
+            apiaries.forEach((apiary, apiaryIndex) => {
+                const apiaryCard = document.createElement('div');
+                apiaryCard.className = 'col-md-4';
+
+                apiaryCard.innerHTML = `
+                    <div class="card">
+                        <div class="card-header">
+                            ${apiary.name}
+                            <i class="fas fa-trash-alt float-right ml-2" onclick="deleteApiary(${apiaryIndex})"></i>
+                            <i class="fas fa-plus-circle float-right" onclick="openAddHiveModal(${apiaryIndex})"></i>
+                        </div>
+                        <div class="card-body">
+                            <p>Location: ${apiary.location}</p>
+                            <div class="hive-cards-container">
+                                ${apiary.hives.map((hive, hiveIndex) => `
+                                    <div class="hive-card">
+                                        <div class="hive-image"></div>
+                                        <div class="hive-info">
+                                            <span class="hive-name">${hive.name}</span>
+                                            <span class="hive-meta">${hive.date}</span>
+                                        </div>
+                                        <div class="options-icon" data-apiary-index="${apiaryIndex}" data-hive-index="${hiveIndex}">
+                                            <i class="fas fa-ellipsis-v"></i>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                apiaryDataDiv.appendChild(apiaryCard);
+            });
         }
 
-        function deleteHive(apiaryName, hiveName) {
-            let apiaries = JSON.parse(localStorage.getItem('apiaries')) || [];
-            const apiary = apiaries.find(a => a.name === apiaryName);
-            if (apiary) {
-                apiary.hives = apiary.hives.filter(hive => hive.name !== hiveName);
+        function deleteApiary(apiaryIndex) {
+            if (confirm("Are you sure you want to delete this apiary?")) {
+                const apiaries = JSON.parse(localStorage.getItem('apiaries')) || [];
+                apiaries.splice(apiaryIndex, 1);
                 localStorage.setItem('apiaries', JSON.stringify(apiaries));
                 loadApiaries();
             }
         }
 
-        function showAddHiveModal(apiaryName) {
+        function openAddHiveModal(apiaryIndex) {
+            document.getElementById('selectedApiary').value = apiaryIndex;
             $('#addHiveModal').modal('show');
-            document.getElementById('selectedApiary').value = apiaryName;
         }
+
+        function addHive() {
+            const apiaryIndex = document.getElementById('selectedApiary').value;
+            const hiveName = document.getElementById('hiveName').value;
+
+            const hive = {
+                name: hiveName,
+                date: new Date().toLocaleDateString()
+            };
+
+            const apiaries = JSON.parse(localStorage.getItem('apiaries')) || [];
+            apiaries[apiaryIndex].hives.push(hive);
+            localStorage.setItem('apiaries', JSON.stringify(apiaries));
+            document.getElementById('addHiveForm').reset();
+            $('#addHiveModal').modal('hide');
+            loadApiaries();
+        }
+
+        function showHiveAnalytics(apiaryIndex, hiveIndex) {
+            const apiaries = JSON.parse(localStorage.getItem('apiaries')) || [];
+            const hive = apiaries[apiaryIndex].hives[hiveIndex];
+            const ctx = document.getElementById('hiveAnalyticsChart').getContext('2d');
+            const hiveCondition = document.getElementById('hiveCondition');
+
+            const analyticsData = {
+                labels: ['January', 'February', 'March', 'April', 'May', 'June'],
+                datasets: [{
+                    label: 'Hive Temperature',
+                    data: [23, 24, 22, 25, 26, 27],
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                }]
+            };
+
+            const analyticsOptions = {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            };
+
+            new Chart(ctx, {
+                type: 'line',
+                data: analyticsData,
+                options: analyticsOptions
+            });
+
+            hiveCondition.innerText = 'Good';  // Example condition
+            $('#hiveAnalyticsModal').modal('show');
+        }
+        
     </script>
 </body>
 </html>
