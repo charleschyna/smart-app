@@ -28,7 +28,7 @@
         }
         .footer {
             margin-top: auto;
-            background-color: #343a40;
+            background-color: #da643f;
             color: white;
             padding: 10px 0;
             text-align: center;
@@ -44,15 +44,15 @@
             border: 1px solid #e0e0e0;
             border-radius: 8px;
             padding: 16px;
-            background-color: #fff;
+            background-color: #e8c8c8;
             margin: 10px;
             width: 150px;
             height: 200px;
             position: relative;
         }
         .hive-image {
-            width: 100%;
-            height: 100px;
+            width: 80%;
+            height: 80px;
             background-color: #ffcc00;
             border-radius: 4px;
         }
@@ -79,6 +79,9 @@
             top: 10px;
             right: 10px;
             cursor: pointer;
+        }
+        .dropdown-menu {
+            min-width: 150px;
         }
     </style>
 </head>
@@ -211,7 +214,18 @@
                 if (e.target.classList.contains('options-icon')) {
                     const apiaryIndex = e.target.dataset.apiaryIndex;
                     const hiveIndex = e.target.dataset.hiveIndex;
-                    showHiveAnalytics(apiaryIndex, hiveIndex);
+                    const dropdown = document.querySelector(`#options-dropdown-${apiaryIndex}-${hiveIndex}`);
+                    $(dropdown).toggle(); // Toggle visibility of the dropdown menu
+                }
+                if (e.target.classList.contains('dropdown-item')) {
+                    const action = e.target.dataset.action;
+                    const apiaryIndex = e.target.dataset.apiaryIndex;
+                    const hiveIndex = e.target.dataset.hiveIndex;
+                    if (action === 'delete') {
+                        deleteHive(apiaryIndex, hiveIndex);
+                    } else if (action === 'analytics') {
+                        showHiveAnalytics(apiaryIndex, hiveIndex);
+                    }
                 }
             });
 
@@ -275,6 +289,10 @@
                                         <div class="options-icon" data-apiary-index="${apiaryIndex}" data-hive-index="${hiveIndex}">
                                             <i class="fas fa-ellipsis-v"></i>
                                         </div>
+                                        <div class="dropdown-menu" id="options-dropdown-${apiaryIndex}-${hiveIndex}">
+                                            <a class="dropdown-item" href="#" data-action="delete" data-apiary-index="${apiaryIndex}" data-hive-index="${hiveIndex}">Delete Hive</a>
+                                            <a class="dropdown-item" href="#" data-action="analytics" data-apiary-index="${apiaryIndex}" data-hive-index="${hiveIndex}">View Analytics</a>
+                                        </div>
                                     </div>
                                 `).join('')}
                             </div>
@@ -290,6 +308,15 @@
             if (confirm("Are you sure you want to delete this apiary?")) {
                 const apiaries = JSON.parse(localStorage.getItem('apiaries')) || [];
                 apiaries.splice(apiaryIndex, 1);
+                localStorage.setItem('apiaries', JSON.stringify(apiaries));
+                loadApiaries();
+            }
+        }
+
+        function deleteHive(apiaryIndex, hiveIndex) {
+            if (confirm("Are you sure you want to delete this hive?")) {
+                const apiaries = JSON.parse(localStorage.getItem('apiaries')) || [];
+                apiaries[apiaryIndex].hives.splice(hiveIndex, 1);
                 localStorage.setItem('apiaries', JSON.stringify(apiaries));
                 loadApiaries();
             }

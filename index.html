@@ -23,7 +23,7 @@
         }
         .apiary-header h2 {
             margin: 0;
-            color: #007bff;
+            color: #ff8800;
         }
         .card {
             border: 1px solid #e0e0e0;
@@ -31,7 +31,7 @@
             margin-bottom: 20px;
         }
         .card-header {
-            background-color: #007bff;
+            background-color: #ff8800;
             color: white;
             border-radius: 8px 8px 0 0;
             padding: 10px;
@@ -40,7 +40,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            border: 1px solid #e0e0e0;
+            border: 1px solid #e0d91b;
             border-radius: 8px;
             padding: 16px;
             background-color: #fff;
@@ -75,11 +75,27 @@
         .apiary-section {
             margin-bottom: 40px;
         }
+        .column {
+            padding: 20px;
+        }
+        .graphs, .notifications {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            background-color: #fff;
+        }
+        .footer {
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <a class="navbar-brand" href="#">
+            <img src="images/7835cfc6-3d93-401c-b774-fa98a9d4f8c8-removebg-preview.png" alt="Smart Beekeeping Logo" style="height: 60px;">
+        </a>
         <a class="navbar-brand" href="#">Smart Beekeeping</a>
+
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -106,9 +122,48 @@
 
     <div class="container">
         <h1 class="my-4 text-center">Smart Nyuki Solutions</h1>
-
-        <div id="apiaryData">
-            <!-- Apiaries and Hives data will be displayed here -->
+        <div class="row">
+            <div class="col-md-4 column" id="hivesColumn">
+                <h2 class="text-center">Hives</h2>
+                <div id="apiaryData">
+                    <!-- Apiaries and Hives data will be displayed here -->
+                </div>
+            </div>
+            <div class="col-md-4 column">
+                <h2 class="text-center">Graphs</h2>
+                <div class="graphs">
+                    <!-- Placeholder for graphs -->
+                    <p>Graphs will be displayed here.</p>
+                </div>
+            </div>
+            <div class="col-md-4 column">
+                <h2 class="text-center">Notifications</h2>
+                <div class="notifications dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="notificationsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-bell"></i>
+                        <span class="badge badge-danger" id="unreadCount">12</span>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="notificationsDropdown">
+                        <a class="dropdown-item" href="#">
+                            <i class="fas fa-envelope mr-2"></i>
+                            New message from Admin
+                            <span class="text-muted small float-right">2 mins ago</span>
+                        </a>
+                        <a class="dropdown-item" href="#">
+                            <i class="fas fa-exclamation-triangle mr-2"></i>
+                            Hive 5 temperature alert
+                            <span class="text-muted small float-right">10 mins ago</span>
+                        </a>
+                        <a class="dropdown-item" href="#">
+                            <i class="fas fa-info-circle mr-2"></i>
+                            Apiary maintenance scheduled
+                            <span class="text-muted small float-right">1 hour ago</span>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item text-center" href="#">View all notifications</a>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- Add Apiary and Hive buttons -->
@@ -122,12 +177,38 @@
         <p>&copy; 2024 Smart Beekeeping. All rights reserved.</p>
     </div>
 
+    <!-- Modal for Hive Details -->
+    <div class="modal fade" id="hiveDetailsModal" tabindex="-1" aria-labelledby="hiveDetailsModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="hiveDetailsModalLabel">Hive Details</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <button class="btn btn-info mb-2" id="viewGeneralCondition">View General Condition</button>
+                    <button class="btn btn-primary mb-2" id="viewAnalytics">View Analytics</button>
+                    <div id="generalConditionContent" style="display: none;">
+                        <!-- General Condition content will be displayed here -->
+                    </div>
+                    <div id="analyticsContent" style="display: none;">
+                        <canvas id="weeklyDataChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Bootstrap JS and dependencies -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <!-- Font Awesome Icons -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script>
         // Load apiaries and hives data
@@ -239,9 +320,80 @@
         }
 
         function viewHiveDetails(apiaryId, hiveId) {
-            alert(`Viewing details for hive ${hiveId} in apiary ${apiaryId}`);
-            // Here you can implement the logic to show detailed hive information
+            $('#hiveDetailsModal').modal('show');
+
+            document.getElementById('viewGeneralCondition').onclick = function() {
+                document.getElementById('generalConditionContent').style.display = 'block';
+                document.getElementById('analyticsContent').style.display = 'none';
+                // Load and display general condition data here
+            };
+
+            document.getElementById('viewAnalytics').onclick = function() {
+                document.getElementById('generalConditionContent').style.display = 'none';
+                document.getElementById('analyticsContent').style.display = 'block';
+                loadWeeklyDataChart(apiaryId, hiveId);
+            };
+        }
+
+        function loadWeeklyDataChart(apiaryId, hiveId) {
+            const ctx = document.getElementById('weeklyDataChart').getContext('2d');
+
+            function updateUnreadCount() {
+                const unreadCount = document.getElementById('unreadCount');
+                let count = parseInt(unreadCount.textContent);
+                unreadCount.textContent = count > 0 ? count : '';
+            }
+        
+            // Call the function to update unread notifications count
+            updateUnreadCount();
+
+            // Example data for the chart
+            const data = {
+                labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+                datasets: [
+                    {
+                        label: 'Temperature (°C)',
+                        data: [22, 19, 24, 23, 20, 21, 25],
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        fill: true
+                    },
+                    {
+                        label: 'Humidity (%)',
+                        data: [55, 50, 60, 58, 53, 52, 60],
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        fill: true
+                    },
+                    {
+                        label: 'Weight (kg)',
+                        data: [10, 12, 11, 14, 13, 12, 15],
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        fill: true
+                    }
+                ]
+            };
+
+            const config = {
+                type: 'line',
+                data: data,
+                options: {
+                    scales: {
+                        x: {
+                            beginAtZero: true
+                        },
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            };
+
+            new Chart(ctx, config);
         }
     </script>
+   
+
 </body>
 </html>
