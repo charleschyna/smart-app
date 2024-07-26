@@ -12,7 +12,12 @@
     <link href="style.css" rel="stylesheet">
     <style>
         body {
-            background-color: #f7f9fc;
+            background-image: url("/images/view-3d-bee-insect-with-honeycomb_23-2150915370.avif");
+            background-size: cover;
+            background-position: center;
+            font-family: Arial, sans-serif;
+            color: #333;
+
             display: flex;
             justify-content: center;
             align-items: center;
@@ -21,14 +26,35 @@
         }
         .signup-container {
             background: #fff;
+            opacity: 0.8;
             padding: 30px;
             border-radius: 10px;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
             max-width: 400px;
             width: 100%;
+            text-align: center;
         }
-        .signup-container h2 {
+        .signup-container img {
+            max-width: 150px;
             margin-bottom: 20px;
+        }
+        .signup-container h1 {
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        .signup-container button{
+            background-color: #cb4012;
+
+        }
+
+        .form-control {
+            border-radius: 0;
+            border-color: #ccc;
+            box-shadow: none;
+        }
+
+        .form-group {
+            position: relative;
         }
         .form-group i {
             position: absolute;
@@ -40,8 +66,11 @@
 </head>
 <body>
     <div class="signup-container">
-        <h2 class="text-center">Sign Up</h2>
-        <form id = "signup">
+        <!-- Image and Title -->
+        <img src="/images/7835cfc6-3d93-401c-b774-fa98a9d4f8c8-removebg-preview.png" alt="App Logo">
+        <h1>SMART NYUKI SOLUTIONS</h1>
+        
+        <form id="signup">
             <div class="form-group position-relative">
                 <label for="username">Username</label>
                 <input type="text" class="form-control" id="username" placeholder="Enter username" required>

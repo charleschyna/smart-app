@@ -6,88 +6,7 @@
     <title>Apiaries and Hives</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
-    <style>
-        body {
-            background-color: #f7f9fc;
-            margin: 0;
-            padding-top: 60px;
-        }
-        .container {
-            margin-top: 30px;
-        }
-        .apiary-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        .apiary-header h2 {
-            margin: 0;
-            color: #ff8800;
-        }
-        .card {
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
-            margin-bottom: 20px;
-        }
-        .card-header {
-            background-color: #ff8800;
-            color: white;
-            border-radius: 8px 8px 0 0;
-            padding: 10px;
-        }
-        .hive-card {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            border: 1px solid #e0d91b;
-            border-radius: 8px;
-            padding: 16px;
-            background-color: #fff;
-            margin: 10px;
-            width: 150px;
-            height: 200px;
-        }
-        .hive-image {
-            width: 100%;
-            height: 100px;
-            background-color: #ffcc00;
-            border-radius: 4px;
-        }
-        .hive-info {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-top: 10px;
-        }
-        .hive-name {
-            font-weight: bold;
-        }
-        .hive-meta {
-            color: #757575;
-            font-size: 0.875rem;
-        }
-        .hive-details {
-            font-size: 0.75rem;
-            color: #757575;
-            text-align: center;
-        }
-        .apiary-section {
-            margin-bottom: 40px;
-        }
-        .column {
-            padding: 20px;
-        }
-        .graphs, .notifications {
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
-            padding: 20px;
-            background-color: #fff;
-        }
-        .footer {
-            margin-top: 20px;
-        }
-    </style>
+    <link rel="stylesheet" href="/style.css">
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
@@ -123,27 +42,110 @@
     <div class="container">
         <h1 class="my-4 text-center">Smart Nyuki Solutions</h1>
         <div class="row">
-            <div class="col-md-4 column" id="hivesColumn">
-                <h2 class="text-center">Hives</h2>
-                <div id="apiaryData">
-                    <!-- Apiaries and Hives data will be displayed here -->
+            <div class="col-md-8 left-column">
+                <h2 class="text-center">Apiaries and Hives</h2>
+                <!-- Content -->
+                <div class="container mt-5">
+                    <!-- Form to add a new apiary -->
+                    <div class="container">
+                        <h2>Add a New Apiary</h2>
+                        <form id="addApiaryForm">
+                            <div class="form-group">
+                                <label for="apiaryName">Apiary Name</label>
+                                <input type="text" class="form-control" id="apiaryName" placeholder="Enter apiary name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="apiaryLocation">Location</label>
+                                <input type="text" class="form-control" id="apiaryLocation" placeholder="Enter apiary location" required>
+                            </div>
+                            <button type="submit" id="addApiaryBtn" class="btn btn-primary btn-small">Add Apiary</button>
+                        </form>
+                        <button id="clearAllBtn" class="btn btn-warning btn-small mt-3">Clear All Apiaries</button>
+                    </div>
+
+                    <!-- Section to display apiary data -->
+                    <div class="container my-4">
+                        <h2>Apiaries</h2>
+                        <div id="apiaryData" class="row">
+                            <!-- Apiary data will be displayed here -->
+                        </div>
+                    </div>
+
+                    <!-- Modal for adding a new hive -->
+                    <div class="modal fade" id="addHiveModal" tabindex="-1" role="dialog" aria-labelledby="addHiveModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="addHiveModalLabel">Add a New Hive</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form id="addHiveForm">
+                                        <div class="form-group">
+                                            <label for="hiveName">Hive Name</label>
+                                            <input type="text" class="form-control" id="hiveName" placeholder="Enter hive name" required>
+                                        </div>
+                                        <input type="hidden" id="selectedApiary">
+                                        <button type="submit" class="btn btn-primary btn-small">Add Hive</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Hive Card Example -->
+
+                    <!-- Modal for Hive Conditions -->
+                    <div class="modal fade" id="hiveConditionModal" tabindex="-1" aria-labelledby="hiveConditionModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="hiveConditionModalLabel">Hive Conditions</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div id="hiveConditionDetails">
+                                        <!-- Hive condition details will be populated here -->
+                                    </div>
+                                    <canvas id="hiveWeeklyGraph"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Modal for hive analytics -->
+                    <div class="modal fade" id="hiveAnalyticsModal" tabindex="-1" role="dialog" aria-labelledby="hiveAnalyticsModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="hiveAnalyticsModalLabel">Hive Analytics</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <canvas id="hiveAnalyticsChart"></canvas>
+                                    <div class="hive-condition mt-3">
+                                        <h6>Overall Condition</h6>
+                                        <p id="hiveCondition"></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="col-md-4 column">
-                <h2 class="text-center">Graphs</h2>
-                <div class="graphs">
-                    <!-- Placeholder for graphs -->
-                    <p>Graphs will be displayed here.</p>
-                </div>
-            </div>
-            <div class="col-md-4 column">
-                <h2 class="text-center">Notifications</h2>
-                <div class="notifications dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="notificationsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <div class="col-md-4 right-column">
+                <div class="notifications">
+                    <h2 class="text-center">Notifications</h2>
+                    <div class="notification-icon" onclick="toggleNotifications()">
                         <i class="fas fa-bell"></i>
                         <span class="badge badge-danger" id="unreadCount">12</span>
-                    </button>
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="notificationsDropdown">
+                    </div>
+                    <div class="dropdown-menu" id="notificationsDropdown">
                         <a class="dropdown-item" href="#">
                             <i class="fas fa-envelope mr-2"></i>
                             New message from Admin
@@ -163,13 +165,38 @@
                         <a class="dropdown-item text-center" href="#">View all notifications</a>
                     </div>
                 </div>
-            </div>
-        </div>
 
-        <!-- Add Apiary and Hive buttons -->
-        <div class="text-center my-4">
-            <button class="btn btn-primary" onclick="addApiary()">Add Apiary</button>
-            <button class="btn btn-success" onclick="addHive()">Add Hive</button>
+                <div class="alerts">
+                    <h2 class="text-center">Maintenance Alerts</h2>
+                    <div id="maintenanceAlerts">
+                        <!-- Maintenance alerts will be displayed here -->
+                    </div>
+                </div>
+
+                <!-- Add Tips & Best Practices Section -->
+                <div class="tips mt-4">
+                    <h2 class="text-center">Tips & Best Practices</h2>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <strong>Tip 1:</strong> Regularly inspect your hives to check for any signs of pests or diseases.
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Tip 2:</strong> Maintain optimal hive temperature by providing adequate ventilation.
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Tip 3:</strong> Ensure your bees have a consistent source of water nearby.
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Tip 4:</strong> Rotate your frames to prevent wax moth infestations and maintain hive hygiene.
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Tip 5:</strong> Keep records of your hive inspections and maintenance activities.
+                        </li>
+                    </ul>
+                </div>
+                <!-- End of Tips & Best Practices Section -->
+
+            </div>
         </div>
     </div>
 
@@ -177,223 +204,10 @@
         <p>&copy; 2024 Smart Beekeeping. All rights reserved.</p>
     </div>
 
-    <!-- Modal for Hive Details -->
-    <div class="modal fade" id="hiveDetailsModal" tabindex="-1" aria-labelledby="hiveDetailsModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="hiveDetailsModalLabel">Hive Details</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <button class="btn btn-info mb-2" id="viewGeneralCondition">View General Condition</button>
-                    <button class="btn btn-primary mb-2" id="viewAnalytics">View Analytics</button>
-                    <div id="generalConditionContent" style="display: none;">
-                        <!-- General Condition content will be displayed here -->
-                    </div>
-                    <div id="analyticsContent" style="display: none;">
-                        <canvas id="weeklyDataChart"></canvas>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Bootstrap JS and dependencies -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <!-- Font Awesome Icons -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
-    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-    <script>
-        // Load apiaries and hives data
-        document.addEventListener('DOMContentLoaded', function() {
-            loadApiaries();
-        });
-
-        function loadApiaries() {
-            const apiaryData = document.getElementById('apiaryData');
-            apiaryData.innerHTML = ''; // Clear existing data
-            let apiaries = JSON.parse(localStorage.getItem('apiaries')) || [];
-
-            apiaries.forEach(apiary => {
-                const apiarySection = document.createElement('div');
-                apiarySection.classList.add('apiary-section');
-
-                const apiaryHeader = document.createElement('div');
-                apiaryHeader.classList.add('apiary-header');
-                apiaryHeader.innerHTML = `
-                    <h2>${apiary.name}</h2>
-                    <div>
-                        <button class="btn btn-outline-secondary btn-sm" onclick="editApiary('${apiary.id}')"><i class="fas fa-edit"></i> Edit</button>
-                        <button class="btn btn-outline-danger btn-sm" onclick="deleteApiary('${apiary.id}')"><i class="fas fa-trash"></i> Delete</button>
-                    </div>
-                `;
-
-                const hivesContainer = document.createElement('div');
-                hivesContainer.classList.add('d-flex', 'flex-wrap');
-
-                apiary.hives.forEach(hive => {
-                    const hiveCard = document.createElement('div');
-                    hiveCard.classList.add('hive-card');
-                    hiveCard.innerHTML = `
-                        <div class="hive-image"></div>
-                        <div class="hive-info">
-                            <div class="hive-name">${hive.name}</div>
-                            <div class="hive-meta">Temp: ${hive.temperature}°C</div>
-                            <div class="hive-meta">Humidity: ${hive.humidity}%</div>
-                            <div class="hive-meta">Weight: ${hive.weight}kg</div>
-                            <button class="btn btn-outline-primary btn-sm mt-2" onclick="viewHiveDetails('${apiary.id}', '${hive.id}')">View Details</button>
-                        </div>
-                    `;
-                    hivesContainer.appendChild(hiveCard);
-                });
-
-                apiarySection.appendChild(apiaryHeader);
-                apiarySection.appendChild(hivesContainer);
-                apiaryData.appendChild(apiarySection);
-            });
-        }
-
-        function addApiary() {
-            const apiaryName = prompt('Enter apiary name:');
-            if (!apiaryName) return;
-
-            const apiaries = JSON.parse(localStorage.getItem('apiaries')) || [];
-            const newApiary = {
-                id: `apiary-${Date.now()}`,
-                name: apiaryName,
-                hives: []
-            };
-            apiaries.push(newApiary);
-            localStorage.setItem('apiaries', JSON.stringify(apiaries));
-            loadApiaries();
-        }
-
-        function addHive() {
-            const apiaryId = prompt('Enter apiary ID to add a hive to:');
-            const hiveName = prompt('Enter hive name:');
-            if (!apiaryId || !hiveName) return;
-
-            const apiaries = JSON.parse(localStorage.getItem('apiaries')) || [];
-            const apiary = apiaries.find(a => a.id === apiaryId);
-            if (!apiary) {
-                alert('Apiary not found!');
-                return;
-            }
-
-            const newHive = {
-                id: `hive-${Date.now()}`,
-                name: hiveName,
-                temperature: 'N/A',
-                humidity: 'N/A',
-                weight: 'N/A'
-            };
-            apiary.hives.push(newHive);
-            localStorage.setItem('apiaries', JSON.stringify(apiaries));
-            loadApiaries();
-        }
-
-        function editApiary(apiaryId) {
-            const apiaries = JSON.parse(localStorage.getItem('apiaries')) || [];
-            const apiary = apiaries.find(a => a.id === apiaryId);
-            if (!apiary) return;
-
-            const newName = prompt('Enter new name for the apiary:', apiary.name);
-            if (newName) {
-                apiary.name = newName;
-                localStorage.setItem('apiaries', JSON.stringify(apiaries));
-                loadApiaries();
-            }
-        }
-
-        function deleteApiary(apiaryId) {
-            let apiaries = JSON.parse(localStorage.getItem('apiaries')) || [];
-            apiaries = apiaries.filter(a => a.id !== apiaryId);
-            localStorage.setItem('apiaries', JSON.stringify(apiaries));
-            loadApiaries();
-        }
-
-        function viewHiveDetails(apiaryId, hiveId) {
-            $('#hiveDetailsModal').modal('show');
-
-            document.getElementById('viewGeneralCondition').onclick = function() {
-                document.getElementById('generalConditionContent').style.display = 'block';
-                document.getElementById('analyticsContent').style.display = 'none';
-                // Load and display general condition data here
-            };
-
-            document.getElementById('viewAnalytics').onclick = function() {
-                document.getElementById('generalConditionContent').style.display = 'none';
-                document.getElementById('analyticsContent').style.display = 'block';
-                loadWeeklyDataChart(apiaryId, hiveId);
-            };
-        }
-
-        function loadWeeklyDataChart(apiaryId, hiveId) {
-            const ctx = document.getElementById('weeklyDataChart').getContext('2d');
-
-            function updateUnreadCount() {
-                const unreadCount = document.getElementById('unreadCount');
-                let count = parseInt(unreadCount.textContent);
-                unreadCount.textContent = count > 0 ? count : '';
-            }
-        
-            // Call the function to update unread notifications count
-            updateUnreadCount();
-
-            // Example data for the chart
-            const data = {
-                labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-                datasets: [
-                    {
-                        label: 'Temperature (°C)',
-                        data: [22, 19, 24, 23, 20, 21, 25],
-                        borderColor: 'rgba(255, 99, 132, 1)',
-                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                        fill: true
-                    },
-                    {
-                        label: 'Humidity (%)',
-                        data: [55, 50, 60, 58, 53, 52, 60],
-                        borderColor: 'rgba(54, 162, 235, 1)',
-                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                        fill: true
-                    },
-                    {
-                        label: 'Weight (kg)',
-                        data: [10, 12, 11, 14, 13, 12, 15],
-                        borderColor: 'rgba(75, 192, 192, 1)',
-                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                        fill: true
-                    }
-                ]
-            };
-
-            const config = {
-                type: 'line',
-                data: data,
-                options: {
-                    scales: {
-                        x: {
-                            beginAtZero: true
-                        },
-                        y: {
-                            beginAtZero: true
-                        }
-                    }
-                }
-            };
-
-            new Chart(ctx, config);
-        }
-    </script>
-   
-
+    <script src="/index.js"></script>
 </body>
 </html>
