@@ -215,3 +215,77 @@ function showHiveAnalytics(apiaryIndex, hiveIndex) {
     hiveCondition.innerText = 'Good';  // Example condition
     $('#hiveAnalyticsModal').modal('show');
 }
+function toggleNotifications() {
+    $('#notificationsDropdown').toggle();
+}
+
+// Function to generate random notifications
+function generateRandomNotification() {
+    const notifications = [
+        { message: 'New message from Admin', icon: '<i class="fas fa-envelope mr-2"></i>' },
+        { message: 'Hive 5 temperature alert', icon: '<i class="fas fa-exclamation-triangle mr-2"></i>' },
+        { message: 'Apiary maintenance scheduled', icon: '<i class="fas fa-info-circle mr-2"></i>' },
+        { message: 'Hive 3 humidity alert', icon: '<i class="fas fa-tint mr-2"></i>' },
+        { message: 'New inspection log added', icon: '<i class="fas fa-clipboard-check mr-2"></i>' },
+       
+        { message: 'Hive 7 in Apiary 1 weight alert', icon: '<i class="fas fa-weight-hanging mr-2"></i>' },
+        { message: 'Hive 7 weight alert', icon: '<i class="fas fa-weight-hanging mr-2"></i>' },
+        { message: 'Hive 6 weight alert', icon: '<i class="fas fa-weight-hanging mr-2"></i>' },
+        { message: 'Hive 3 weight alert', icon: '<i class="fas fa-weight-hanging mr-2"></i>' },
+        { message: 'Hive 1 weight alert', icon: '<i class="fas fa-weight-hanging mr-2"></i>' },
+        { message: 'Hive 9 weight alert', icon: '<i class="fas fa-weight-hanging mr-2"></i>' },
+        { message: 'Hive 5 weight alert', icon: '<i class="fas fa-weight-hanging mr-2"></i>' },
+        { message: 'Hive 2 weight alert', icon: '<i class="fas fa-weight-hanging mr-2"></i>' },
+        { message: 'Hive 8 weight alert', icon: '<i class="fas fa-weight-hanging mr-2"></i>' },
+        { message: 'Hive 4 weight alert', icon: '<i class="fas fa-weight-hanging mr-2"></i>' },
+        { message: 'Hive 7 weight alert', icon: '<i class="fas fa-weight-hanging mr-2"></i>' },
+        { message: 'Hive 7 weight alert', icon: '<i class="fas fa-weight-hanging mr-2"></i>' },
+        { message: 'Hive 7 weight alert', icon: '<i class="fas fa-weight-hanging mr-2"></i>' },
+        { message: 'Hive 7 weight alert', icon: '<i class="fas fa-weight-hanging mr-2"></i>' },
+    ];
+
+    const notification = notifications[Math.floor(Math.random() * notifications.length)];
+    const timestamp = new Date().toLocaleTimeString();
+    const notificationItem = `
+        <a class="dropdown-item notification-item" href="#" onclick="markAsRead(this)">
+            ${notification.icon} ${notification.message}
+            <span class="text-muted small float-right">${timestamp}</span>
+            <span class="delete-icon" onclick="deleteNotification(event, this)">&times;</span>
+        </a>
+    `;
+    $('#notificationsDropdown').prepend(notificationItem);
+    updateUnreadCount();
+}
+
+// Function to update unread notification count
+function updateUnreadCount() {
+    const count = $('#notificationsDropdown .notification-item').length;
+    $('#unreadCount').text(count);
+}
+
+// Function to mark notification as read
+function markAsRead(element) {
+    $(element).addClass('read');
+    updateUnreadCount();
+}
+
+// Function to delete notification
+function deleteNotification(event, element) {
+    event.stopPropagation();
+    $(element).closest('.notification-item').remove();
+    updateUnreadCount();
+}
+
+// Function to view all notifications
+function viewAllNotifications() {
+    const notifications = $('#notificationsDropdown .notification-item').clone();
+    $('#activityLogs').empty().append(notifications);
+}
+
+// Generate random notifications every 2 minutes
+setInterval(generateRandomNotification, 30000);
+
+// Initialize notifications
+$(document).ready(function() {
+    generateRandomNotification();
+});

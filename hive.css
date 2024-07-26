@@ -1,71 +1,84 @@
-
-        body {
-            display: flex;
-        }
-        .sidebar {
-            width: 250px;
-            transition: width 0.3s;
-            position: fixed;
-            top: 40;
-            left: 0;
-            height: 100vh;
-            background-color: #94c5f6;
-            border-right: 1px solid #ddd;
-            padding-top: 60px; /* Adjust padding-top to avoid overlapping with header */
-        }
-        .sidebar.minimized {
-            width: 60px;
-        }
-        .content {
-            flex-grow: 1;
-            transition: margin-left 0.3s;
-        }
-        .sidebar.minimized ~ .content {
-            margin-left: 60px;
-        }
-        .sidebar ~ .content {
-            margin-left: 250px;
-        }
-        .toggle-btn {
-            display: block;
-            cursor: pointer;
-        }
-        .navbar-nav .nav-link .text {
-            display: inline;
-        }
-        .sidebar.minimized .navbar-nav .nav-link .text {
-            display: none;
-        }
-        .nav-item .nav-link.active {
-            background-color: #007bff;
-            color: #fff;
-        }
-        .hives {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-        .hive {
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 15px;
-            width: calc(33.333% - 20px);
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-        .hive h5 {
-            margin-top: 0;
-            margin-bottom: 10px;
-        }
-        .hive p {
-            margin: 5px 0;
-        }
-        .footer {
-            background-color: #94c5f6;
-            border-top: 1px solid #ddd;
-            padding: 0px;
-            text-align: center;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-        }
-   
+body {
+    background-color: #f7f9fc;
+    margin: 0;
+    padding-top: 60px;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+.container {
+    margin-top: 30px;
+}
+.card {
+    margin-bottom: 30px;
+}
+.card-header {
+    background-color: #007bff;
+    color: white;
+}
+.footer {
+    margin-top: auto;
+    background-color: #da643f;
+    color: white;
+    padding: 10px 0;
+    text-align: center;
+}
+.btn-small {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+}
+.hive-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 16px;
+    background-color: #e8c8c8;
+    margin: 10px;
+    width: 150px;
+    height: 200px;
+    position: relative;
+}
+.hive-image {
+    width: 80%;
+    height: 80px;
+    background-color: #ffcc00;
+    border-radius: 4px;
+}
+.hive-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px;
+}
+.hive-name {
+    font-weight: bold;
+}
+.hive-meta {
+    color: #757575;
+    font-size: 0.875rem;
+}
+.hive-details {
+    font-size: 0.75rem;
+    color: #757575;
+    text-align: center;
+}
+.options-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+}
+.dropdown-menu {
+    min-width: 150px;
+}
+.navbar {
+    background-color: #cb4012 !important;
+}
+.navbar .nav-link {
+    color: white !important;
+}
+.navbar-brand {
+    color: white !important;
+}

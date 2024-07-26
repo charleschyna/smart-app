@@ -24,11 +24,12 @@
                     <a class="nav-link" href="index.html">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="analytics.html">Analytics</a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" href="hive.html">Hives</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="analytics.html">Analytics</a>
+                </li>
+                
                 <li class="nav-item">
                     <a class="nav-link" href="profile.html">Profile</a>
                 </li>
@@ -143,35 +144,15 @@
                     <h2 class="text-center">Notifications</h2>
                     <div class="notification-icon" onclick="toggleNotifications()">
                         <i class="fas fa-bell"></i>
-                        <span class="badge badge-danger" id="unreadCount">12</span>
+                        <span class="badge badge-danger" id="unreadCount">0</span>
                     </div>
                     <div class="dropdown-menu" id="notificationsDropdown">
-                        <a class="dropdown-item" href="#">
-                            <i class="fas fa-envelope mr-2"></i>
-                            New message from Admin
-                            <span class="text-muted small float-right">2 mins ago</span>
-                        </a>
-                        <a class="dropdown-item" href="#">
-                            <i class="fas fa-exclamation-triangle mr-2"></i>
-                            Hive 5 temperature alert
-                            <span class="text-muted small float-right">10 mins ago</span>
-                        </a>
-                        <a class="dropdown-item" href="#">
-                            <i class="fas fa-info-circle mr-2"></i>
-                            Apiary maintenance scheduled
-                            <span class="text-muted small float-right">1 hour ago</span>
-                        </a>
+                        <!-- Notifications will be dynamically added here -->
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item text-center" href="#">View all notifications</a>
+                        <a class="dropdown-item text-center" href="#" onclick="viewAllNotifications()">View all notifications</a>
                     </div>
                 </div>
-
-                <div class="alerts">
-                    <h2 class="text-center">Maintenance Alerts</h2>
-                    <div id="maintenanceAlerts">
-                        <!-- Maintenance alerts will be displayed here -->
-                    </div>
-                </div>
+            </div>
 
                 <!-- Add Tips & Best Practices Section -->
                 <div class="tips mt-4">
