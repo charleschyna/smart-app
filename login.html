@@ -12,7 +12,11 @@
     <link href="style.css" rel="stylesheet">
     <style>
         body {
-            background-color: #f7f9fc;
+            background-color: rgba(112, 225, 225, 0.527);
+            background-position: center;
+            font-family: Arial, sans-serif;
+            color: #333;
+
             display: flex;
             justify-content: center;
             align-items: center;
@@ -21,11 +25,13 @@
         }
         .login-container {
             background: #fff;
+            opacity: 0.8;
             padding: 30px;
             border-radius: 10px;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-            max-width: 400px;
+            max-width: 700px;
             width: 100%;
+            text-align: center;
         }
         .login-container h2 {
             margin-bottom: 20px;
@@ -36,10 +42,17 @@
             top: 10px;
             color: #aaa;
         }
+        .login-container img {
+            max-width: 150px;
+            margin-bottom: 20px;
+            align-items: center;
+            position: relative;
+        }
     </style>
 </head>
 <body>
     <div class="login-container">
+        <img src="/images/7835cfc6-3d93-401c-b774-fa98a9d4f8c8-removebg-preview.png" alt="App Logo">
         <h2 class="text-center">Login</h2>
         <form>
             <div class="form-group position-relative">

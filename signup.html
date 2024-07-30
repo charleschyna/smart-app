@@ -12,39 +12,42 @@
     <link href="style.css" rel="stylesheet">
     <style>
         body {
-            background-image: url("/images/view-3d-bee-insect-with-honeycomb_23-2150915370.avif");
-            background-size: cover;
+            background-color: rgba(112, 225, 225, 0.527);
             background-position: center;
             font-family: Arial, sans-serif;
             color: #333;
-
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
+            overflow: hidden; /* Ensure no scrollbars */
         }
+
         .signup-container {
             background: #fff;
             opacity: 0.8;
             padding: 30px;
             border-radius: 10px;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-            max-width: 400px;
+            max-width: 700px;
             width: 100%;
             text-align: center;
+            position: relative; /* Make container the reference point */
         }
+
         .signup-container img {
             max-width: 150px;
             margin-bottom: 20px;
         }
+
         .signup-container h1 {
             margin-bottom: 20px;
             font-size: 24px;
         }
-        .signup-container button{
-            background-color: #cb4012;
 
+        .signup-container button {
+            background-color: #cb4012;
         }
 
         .form-control {
@@ -56,16 +59,33 @@
         .form-group {
             position: relative;
         }
+
         .form-group i {
             position: absolute;
             right: 10px;
             top: 10px;
             color: #aaa;
         }
+
+        /* Bee animation */
+        .bee {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background: url('/images/ezgif-6-36a7414e2a.gif') no-repeat center center;
+            background-size: contain;
+            animation: rotate 10s infinite linear;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg) translateX(200px) rotate(0deg); }
+            100% { transform: rotate(90deg) translateX(200px) rotate(-90deg); }
+        }
     </style>
 </head>
 <body>
     <div class="signup-container">
+        <div class="bee"></div>
         <!-- Image and Title -->
         <img src="/images/7835cfc6-3d93-401c-b774-fa98a9d4f8c8-removebg-preview.png" alt="App Logo">
         <h1>SMART NYUKI SOLUTIONS</h1>
