@@ -40,27 +40,39 @@
 <body>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-        <a class="navbar-brand" href="#">Smart Beekeeping</a>
+        <a class="navbar-brand" href="#">
+            <img src="./images/7835cfc6-3d93-401c-b774-fa98a9d4f8c8-removebg-preview.png" alt="Smart Beekeeping Logo" style="height: 60px;">
+            <img src="/images/icegif-293.gif" alt="Logo" width="50" height="50">
+        </a>
+    
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
-        </button>
+        </button>          
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
                     <a class="nav-link" href="index.html">Home</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="hive.html">Hives</a>
-                </li>
+                
                 <li class="nav-item">
                     <a class="nav-link" href="analytics.html">Analytics</a>
                 </li>
                 
-                <li class="nav-item">
-                    <a class="nav-link" href="profile.html">Profile</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link" href="#" id="notificationsDropdownToggle">
+                        <i class="fas fa-bell">Notifications</i>
+                        <span class="badge badge-danger" id="unreadCount">0</span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" id="notificationsDropdown">
+                        <h6 class="dropdown-header">Notifications</h6>
+                        <!-- Notifications will be dynamically added here -->
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item text-center" href="#" onclick="viewAllNotifications()">View all notifications</a>
+                    </div>
+
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="logout.html">Logout</a>
+                    <a class="nav-link" href="profile.html">Profile</a>
                 </li>
             </ul>
         </div>
@@ -127,6 +139,7 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src='/notifications.js'></script>
     <!-- Chart.js Scripts -->
     <script>
         var pieCtx = document.getElementById('pieChart').getContext('2d');
