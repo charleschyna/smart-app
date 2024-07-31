@@ -1,0 +1,129 @@
+/* styles.css */
+
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+}
+.navbar {
+    background-color: #cb4012 !important;
+    color: white;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 999;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease;
+}
+
+.navbar.navbar-toggler {
+    color: white;
+    border-color: white;
+
+
+}
+
+
+
+.navbar .nav-link {
+    color: white !important;
+    margin-right: 10px;
+
+}
+
+.navbar.navbar-toggler:hover,
+.navbar.navbar-toggler:focus {  
+    color: white;
+    border-color: white;
+}
+.navbar-brand {
+    color: white !important;
+}
+
+
+.hero-section {
+    background-image: url('/images/view-3d-bee-insect-with-honeycomb_23-2150915370.avif'); /* Replace with your image */
+    background-size: cover;
+    background-position: center;
+    color: white;
+    text-align: center;
+    padding: 100px 0;
+    position: relative;
+    z-index: 1;
+}
+
+.hero-section::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5); /* Dark overlay for text readability */
+    z-index: -1;
+}
+
+.features-section {
+    padding: 60px 0;
+    background-color: #f8f9fa;
+}
+
+.feature-box {
+    text-align: center;
+    padding: 20px;
+}
+
+.showcase-section {
+    padding: 60px 0;
+    background: #333;
+    color: white;
+    text-align: center;
+}
+
+.showcase-img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+}
+
+.testimonials-section {
+    padding: 60px 0;
+    background-color: #f8f9fa;
+    text-align: center;
+}
+
+.testimonial {
+    margin-bottom: 30px;
+    font-style: italic;
+}
+
+.cta-section {
+    background-color: #007bff;
+    color: white;
+    padding: 40px 0;
+    text-align: center;
+}
+
+.cta-btn {
+    margin-top: 20px;
+    font-size: 1.2em;
+}
+
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+}
+
+@media (max-width: 768px) {
+    .hero-section {
+        padding: 80px 20px;
+    }
+}
