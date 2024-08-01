@@ -12,17 +12,18 @@
     <link href="style.css" rel="stylesheet">
     <style>
         body {
-            background-color: rgba(112, 225, 225, 0.527);
+            background-color: rgba(232, 77, 5, 0.78);
             background-position: center;
             font-family: Arial, sans-serif;
             color: #333;
-
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
+            overflow: hidden; /* Ensure no scrollbars */
         }
+
         .login-container {
             background: #fff;
             opacity: 0.8;
@@ -35,6 +36,9 @@
         }
         .login-container h2 {
             margin-bottom: 20px;
+        }
+        .login-container button {
+            background-color: #cb4012;
         }
         .form-group i {
             position: absolute;
