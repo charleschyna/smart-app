@@ -7,188 +7,221 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            background-color: #343a40;
-            color: white;
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
         }
-        .navbar {
-            margin-bottom: 0;
-            padding: 20px;
-            border-radius: 0;
-            background-color: #f76d22 !important;
-            color: white;
-            font-weight: bold;
-            font-family: 'Poppins', sans-serif;
-            font-size: 18px;
-          
+        .header, .features, .contact {
+            padding: 60px 0;
         }
-        .navbar-brand {
-            font-size: 24px;
-            margin-right: 20px;
-            font-weight: bold;
-            font-family: 'Poppins', sans-serif;
-            color: white;
-        }
-
-        .navbar-nav .nav-link {
-            color: white;
-        }
-
-        .navbar-nav .nav-link:hover {
-            color: white;
-        }
-
-        .navbar-nav .nav-link:focus {
-            color: white;
-        }
-        .navbar-brand img {
-            width: 100px;
-            height: 50px;
-            margin-right: 10px;
-        }
-
-
-        .hero-section {
-            text-align: center;
-            padding: 100px 20px;
-            background: url('/') no-repeat center center;
+        .header {
+            background: url('header-bg.jpg') no-repeat center center;
+            background-color: rgb(244, 108, 17);
             background-size: cover;
-            height: 100vh;
-        }
-        .about-section, .contact-section {
+            color: white;
             text-align: center;
-            padding: 100px 20px;
-            background-size: cover;
-            height: 100vh;
-        }
-        .about-section {
-            background: url('/mnt/data/about-image.png') no-repeat center center;
-        }
-        .contact-section {
-            background: url('/mnt/data/contact-image.png') no-repeat center center;
-        }
-        .hero-section .btn, .about-section .btn, .contact-section .btn {
-            margin: 10px;
-        }
-        .hero-content {
             position: relative;
-            top: 50%;
-            transform: translateY(-50%);
         }
-        .hidden-section {
-            display: none;
+        .header-content {
+            position: relative;
+            z-index: 2;
+        }
+        .header h1 {
+            font-size: 4rem;
+            margin-bottom: 30px;
+            font-weight: bold;
+
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            text-transform: uppercase;
+
+            color: #fff;
+
             text-align: center;
-            padding: 50px 20px;
+
+            /* Add your text styles here */
+
         }
-        footer {
-            background-color: #212529;
+        .header-content.btn-custom {
+            margin-top: 10px;
+        }
+        .header h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+        .header p {
+            font-size: 1.5rem;
+            margin-bottom: 40px;
+        }
+        @media (max-width: 768px) {
+           .header h1 {
+                font-size: 3rem;
+            }
+        }
+        @media (max-width: 576px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+        }
+        .features {
+            text-align: center;
+        }
+        
+        .features h2 {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+        }
+        .features p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+        }
+        .features .card {
+            margin: 15px 0;
+        }
+        
+        .contact h2 {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+        }
+        .contact p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+        }
+        .contact .btn-custom {
+            margin-top: 10px;
+        }
+        .footer {
+            background-color: #8f1515 !important;
             color: white;
-            text-align: center;
             padding: 20px 0;
-            position: relative;
-            bottom: 0;
+            text-align: center;
+        }
+        .footer p {
+            margin-bottom: 0;
+        }
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 3rem;
+            }
+        }
+        @media (max-width: 576px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+        }
+        .header img {
+            max-width: 200px;
+            margin-bottom: 20px;
+        }
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }
+        .header h1 {
+            font-size: 3.5rem;
+        }
+        .btn-custom {
+            margin: 5px;
+        }
+        .phone-image {
+            max-width: 80%;
+            height: auto;
+            margin-top: 20px;
+        }
+        .features .card {
+            margin: 15px 0;
+        }
+        .footer {
+            background-color: #8f1515 !important;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+        }
+        .footer p {
+            margin-bottom: 0;
         }
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">
-            <img src="/images/7835cfc6-3d93-401c-b774-fa98a9d4f8c8-removebg-preview.png" alt="Logo" width="50" height="50">
-            <img src="/images/icegif-293.gif" alt="Logo" width="50" height="50">
-           
-        </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#about">About</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#contact">Contact Us</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Ping</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Link 1</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Link 2</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Link 3</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
-
-    <div class="hero-section">
-        <div class="hero-content">
+    <!-- Header Section -->
+    <header class="header">
+        <div class="container header-content">
+            <img src="/images/7835cfc6-3d93-401c-b774-fa98a9d4f8c8-removebg-preview.png" alt="App Logo">
             <h1>Welcome to Smart Nyuki Solutions</h1>
-            <button class="btn btn-primary" onclick="showHiddenSection()">Discover More</button>
-            <button class="btn btn-secondary">Signup</button>
-            <button class="btn btn-secondary">Login</button>
+            <p>Revolutionizing Hive Management with Technology</p>
+            <a href="#signup" class="btn btn-primary btn-lg btn-custom">Sign Up</a>
+            <a href="#signin" class="btn btn-secondary btn-lg btn-custom">Log In</a>
         </div>
-    </div>
+    </header>
 
-    <div class="container hidden-section" id="hiddenSection">
-       
-    
-
-    <div id="about" class="about-section">
-        <div class="content">
-            <h2>About Us</h2>
-            <p>
-                Welcome to Smart Beekeeping, a revolutionary platform designed to enhance the practice of beekeeping using the latest in smart technology. Our project aims to provide beekeepers with real-time data and analytics to ensure optimal hive conditions, improve honey production, and safeguard bee health.
-            </p>
-            <p>
-                Our system includes sensors placed within hives to monitor key parameters such as temperature, humidity, sound, and weight. This data is then transmitted to our web application, allowing beekeepers to access critical information from anywhere, at any time.
-            </p>
-            <img src="about1.png" alt="Bee on flower">
-            <p>
-                Additionally, our platform offers features such as maintenance scheduling, activity logs, and alert notifications to keep beekeepers informed and proactive in their hive management. Whether you are a small-scale hobbyist or a commercial beekeeper, Smart Beekeeping is designed to meet your needs.
-            </p>
-            <p>
-                Join us in our mission to combine traditional beekeeping with modern technology for a sustainable and productive future.
-            </p>
-            <img src="about2.png" alt="Beehive with sensors">
-            <button class="btn btn-primary">Learn More</button>
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <img src="/images/_0a9b9296-9bb4-4d8a-bd9b-8d5a52a0d679.jfif" alt="Person holding phone showcasing app" class="phone-image">
+                </div>
+                <div class="col-md-6 text-center text-md-left">
+                    <h3>Our Features</h3>
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="card-title">Real-time Monitoring</h3>
+                            <p class="card-text">Monitor your hives from anywhere with real-time data and alerts.</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="card-title">Predictive Analytics</h3>
+                            <p class="card-text">Use data-driven insights to predict and prevent hive issues.</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="card-title">Automated Alerts</h3>
+                            <p class="card-text">Receive automated alerts for maintenance and hive conditions.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-    </div>
+    </section>
 
-    <div id="contact" class="contact-section">
-        <div class="content">
-            <h2>Contact Us</h2>
-            <p>We'd love to hear from you! Whether you have a question about our project, need assistance, or just want to provide feedback, feel free to reach out to us through the following channels:</p>
-            <ul>
-                <li>Email: support@smartbeekeeping.com</li>
-                <li>Phone: (123) 456-7890</li>
-                <li>Address: 123 Bee Street, Honeytown, BeeCountry</li>
-            </ul>
-            <img src="contact.png" alt="Contact Us">
-            <p>Alternatively, you can fill out our contact form, and we'll get back to you as soon as possible.</p>
-            <button class="btn btn-primary">Contact</button>
+    <!-- Contact Section -->
+    <section class="contact bg-light">
+        <div class="container">
+            <h2 class="text-center">Contact Us</h2>
+            <form>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="name">Name</label>
+                        <input type="text" class="form-control" id="name" placeholder="Your Name">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" id="email" placeholder="Your Email">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea class="form-control" id="message" rows="5" placeholder="Your Message"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Send Message</button>
+            </form>
         </div>
-    </div>
+    </section>
 
-    <footer>
+    <!-- Footer -->
+    <footer class="text-center py-4">
         <p>&copy; 2024 Smart Beekeeping. All rights reserved.</p>
     </footer>
 
-    <script>
-        function showHiddenSection() {
-            document.getElementById('hiddenSection').style.display = 'block';
-        }
-    </script>
-
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
